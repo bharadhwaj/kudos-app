@@ -1,0 +1,40 @@
+{
+  "name": "employee-rating-server",
+  "version": "1.0.0",
+  "description": "APIs for employee rating.",
+  "scripts": {
+    "build": "babel src -d lib",
+    "dev-server": "nodemon --exec \" NODE_ENV=development babel-node --inspect src\"",
+    "start-dev-server": "pm2 startOrReload ecosystem.config.js --env development"
+  },
+  "dependencies": {
+    "@hapi/joi": "^17.1.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.4",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-http-context": "^1.2.3",
+    "express-validation": "^3.0.2",
+    "helmet": "^3.21.3",
+    "moment-timezone": "^0.5.28",
+    "morgan": "^1.9.1",
+    "mysql2": "^2.1.0",
+    "randomstring": "^1.1.5",
+    "rotating-file-stream": "^2.0.2",
+    "sequelize": "^5.21.5",
+    "winston": "^3.2.1",
+    "winston-daily-rotate-file": "^4.4.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.7",
+    "@babel/node": "^7.8.7",
+    "@babel/polyfill": "^7.8.7",
+    "@babel/preset-env": "^7.8.7",
+    "nodemon": "^2.0.2",
+    "prettier": "^1.19.1"
+  }
+}
