@@ -1,15 +1,15 @@
-import { hashSync, compareSync } from 'bcryptjs';
+import { hashSync } from 'bcryptjs';
 
 import UserClass from '../classes/users.class';
 
 import { code, message, utils } from '../constants';
-import response from '../lib/response';
+
 import logger from '../lib/logger';
 
-export const createUser = async (req, res) => {
+export const signUp = async (req, res, next) => {
   try {
     logger.info(
-      `INFO: UserController-createUser - User Email: ${JSON.stringify(
+      `INFO: UserController-signUp - User Email: ${JSON.stringify(
         req.body.email
       )}`
     );
@@ -18,16 +18,30 @@ export const createUser = async (req, res) => {
     userInfo.password = hashSync(password, utils.SALT_ROUND);
 
     const userObject = new UserClass();
-    const { statusCode, response } = await userObject.createUser(userInfo);
+    const { statusCode, response } = await userObject.signUp(userInfo);
 
     res.status(statusCode).send(response);
   } catch (error) {
-    logger.error(`ERROR: UserController-createUser - ${error}`);
-    res.status(500).send({
-      success: false,
-      responseCode: code.APPLICATION_ERROR_CODES.INTERNAL_SERVER_ERROR,
-      message: message.APPLICATION_ERROR_MESSAGES.SERVER_ERROR,
-      data: { error: error.toString() },
-    });
+    logger.error(`ERROR: UserController-signUp - ${JSON.stringify(error)}`);
+    next(error);
+  }
+};
+
+export const login = async (req, res, next) => {
+  try {
+    logger.info(
+      `INFO: UserController-login - User Email: ${JSON.stringify(
+        req.body.email
+      )}`
+    );
+    const { email, password } = req.body;
+
+    const userObject = new UserClass();
+    const { statusCode, response } = await userObject.login(email, password);
+
+    res.status(statusCode).send(response);
+  } catch (error) {
+    logger.error(`ERROR: UserController-login - ${error}`);
+    next(error);
   }
 };

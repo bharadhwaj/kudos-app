@@ -20,7 +20,7 @@ const OrganisationModel = sequelize.define(
     active: {
       type: Sequelize.BOOLEAN,
       allowNull: false,
-      default: true,
+      defaultValue: true,
     },
   },
   {
@@ -28,4 +28,4 @@ const OrganisationModel = sequelize.define(
   }
 );
 
-export default OrganisationModel.sync();
+export default OrganisationModel;

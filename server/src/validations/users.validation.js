@@ -21,5 +21,22 @@ export const createUser = Joi.object({
     password: Joi.string()
       .trim()
       .required(),
+    organisationId: Joi.number()
+      .positive()
+      .required(),
+  },
+});
+
+export const login = Joi.object({
+  params: {},
+  query: {},
+  body: {
+    email: Joi.string()
+      .trim()
+      .email({ minDomainSegments: 2 })
+      .required(),
+    password: Joi.string()
+      .trim()
+      .required(),
   },
 });

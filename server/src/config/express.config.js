@@ -7,13 +7,17 @@ import helmet from 'helmet';
 import httpContext from 'express-http-context';
 import randomstring from 'randomstring';
 
-import { utils } from '../constants';
 import { env } from './env.config';
+
+import { utils } from '../constants';
+
+import { errorHandler } from '../middleware/errorHandler';
 import {
   morganAccessLogger,
   morganStdErr,
   morganStdOut,
 } from '../middleware/morgan';
+
 import createRouter from '../router';
 
 const app = express();
@@ -32,7 +36,6 @@ app.use(function(req, res, next) {
   next();
 });
 
-// setup the access logger
 if (env !== utils.ENV.TEST) {
   app.use(morganAccessLogger);
 }
@@ -43,5 +46,7 @@ if (env === utils.ENV.TEST || env === utils.ENV.DEV) {
 }
 
 app.use('/', createRouter());
+
+app.use(errorHandler);
 
 export default app;

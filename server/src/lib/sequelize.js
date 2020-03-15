@@ -18,7 +18,7 @@ const connectSequelize = async () => {
       `DEBUG: Sequelize-connectSequelize: MySQL connected successfully.`
     );
 
-    return sequelize.sync();
+    return sequelize.sync({ force: true });
   } catch (error) {
     logger.error(`ERROR: Sequelize-connectSequelize - ${error}`);
   }

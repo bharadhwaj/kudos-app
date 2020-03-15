@@ -5,28 +5,7 @@ export const sequelizeConfig = {
   development: {
     url: process.env.MYSQL_URL_DEV,
     options: {
-      pool: {
-        max: 5,
-        min: 0,
-        acquire: 30000,
-        idle: 10000,
-      },
-    },
-  },
-  test: {
-    url: process.env.MYSQL_URL_TEST,
-    options: {
-      pool: {
-        max: 5,
-        min: 0,
-        acquire: 30000,
-        idle: 10000,
-      },
-    },
-  },
-  staging: {
-    url: process.env.MYSQL_URL_STAGING,
-    options: {
+      query: { raw: true },
       pool: {
         max: 5,
         min: 0,
@@ -38,6 +17,7 @@ export const sequelizeConfig = {
   production: {
     url: process.env.MYSQL_URL_PRODUCTION,
     options: {
+      query: { raw: true },
       pool: {
         max: 5,
         min: 0,

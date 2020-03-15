@@ -2,6 +2,8 @@ import Sequelize from 'sequelize';
 
 import { sequelize } from '../lib/sequelize';
 
+import OrganisationModel from './organisations.model';
+
 const UserModel = sequelize.define(
   'users',
   {
@@ -28,6 +30,13 @@ const UserModel = sequelize.define(
       type: Sequelize.STRING(1023),
       allowNull: false,
     },
+    organisationId: {
+      type: Sequelize.INTEGER,
+      references: {
+        model: 'organisations',
+        key: 'id',
+      },
+    },
     active: {
       type: Sequelize.BOOLEAN,
       allowNull: false,
@@ -38,5 +47,7 @@ const UserModel = sequelize.define(
     freezeTableName: true,
   }
 );
+
+OrganisationModel.hasMany(UserModel);
 
 export default UserModel;

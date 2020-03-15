@@ -32,11 +32,18 @@ export const errorHandler = (err, req, res, next) => {
     return;
   }
 
-  logger.error(`ERROR: UncaughtError - ${JSON.stringify(err)}`);
+  logger.error(`ERROR: UncaughtServerError - ${JSON.stringify(err)}`);
   res.status(500).send({
     success: false,
     responseCode: code.APPLICATION_ERROR_CODES.INTERNAL_SERVER_ERROR,
     message: message.APPLICATION_ERROR_MESSAGES.INTERNAL_SERVER_ERROR,
-    data: { error: err },
+    data: {
+      error: {
+        code: err.code,
+        path: err.path,
+        message: err.message,
+        stack: err.stack,
+      },
+    },
   });
 };
