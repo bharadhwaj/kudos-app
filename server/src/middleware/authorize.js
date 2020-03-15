@@ -3,7 +3,7 @@ import httpContext from 'express-http-context';
 import { code, message } from '../constants';
 import { decodeToken } from '../lib/token';
 
-export const authorize = async (req, res, next) => {
+const authorize = async (req, res, next) => {
   try {
     const authHeader = req.get('Authorization');
 
@@ -22,7 +22,7 @@ export const authorize = async (req, res, next) => {
 
     const decodedToken = await decodeToken(token);
 
-    if (userId !== decodedToken.id) {
+    if (+userId !== +decodedToken.id) {
       return res.status(401).send({
         success: false,
         responseCode: code.APPLICATION_ERROR_CODES.UNAUTHORIZED,
@@ -32,7 +32,7 @@ export const authorize = async (req, res, next) => {
     }
 
     if (req.params.userId) {
-      if (userId !== req.params.userId) {
+      if (+userId !== +req.params.userId) {
         return res.status(403).send({
           success: false,
           responseCode: code.APPLICATION_ERROR_CODES.FORBIDDEN,
@@ -58,3 +58,5 @@ export const authorize = async (req, res, next) => {
     });
   }
 };
+
+export default authorize;

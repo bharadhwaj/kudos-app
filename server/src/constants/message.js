@@ -1,6 +1,7 @@
 export const USER_MESSAGES = {
   CREATE_USER_SUCCESS: 'User created successfully.',
   LOGIN_SUCCESS: 'User logged in successfully.',
+  GET_USERS_BY_ORGANISATION: 'Fetched the list of users from the organisation.',
   USER_ALREADY_EXISTS: 'User with this email already exist.',
   USER_NOT_FOUND: 'User with this email is not found. Try signing up!',
   INVALID_LOGIN: 'Invalid email or password.',
