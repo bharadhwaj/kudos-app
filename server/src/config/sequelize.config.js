@@ -5,7 +5,6 @@ export const sequelizeConfig = {
   development: {
     url: process.env.MYSQL_URL_DEV,
     options: {
-      query: { raw: true },
       pool: {
         max: 5,
         min: 0,
@@ -17,7 +16,6 @@ export const sequelizeConfig = {
   production: {
     url: process.env.MYSQL_URL_PRODUCTION,
     options: {
-      query: { raw: true },
       pool: {
         max: 5,
         min: 0,

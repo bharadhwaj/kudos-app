@@ -53,7 +53,18 @@ export const getUsersFromOrganisation = async (req, res, next) => {
 
     const users = await userObject.getUsers(
       { organisationId, active: true },
-      { offset, limit: limit || 100, excludeFields: ['password', 'active'] }
+      {
+        offset,
+        limit: limit || 100,
+        excludeFields: [
+          'password',
+          'active',
+          'createdAt',
+          'updatedAt',
+          'active',
+          'organisationId',
+        ],
+      }
     );
 
     res.status(200).send({

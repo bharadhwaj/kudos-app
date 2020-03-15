@@ -16,6 +16,7 @@ export default class OrganisationClass {
           id: organisationId,
           active: true,
         },
+        raw: true,
       });
 
       logger.debug(
@@ -52,6 +53,7 @@ export default class OrganisationClass {
         offset: +offset,
         limit: +limit,
         where: condition,
+        raw: true,
       });
 
       logger.debug(

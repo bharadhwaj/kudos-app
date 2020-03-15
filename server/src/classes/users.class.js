@@ -1,5 +1,4 @@
-import { compareSync } from 'bcryptjs';
-
+import OrganisationModel from '../models/organisations.model';
 import UserModel from '../models/users.model';
 
 import { code, message } from '../constants';
@@ -43,6 +42,16 @@ export default class UserClass {
         offset: +offset,
         limit: +limit,
         where: condition,
+        include: [
+          {
+            model: OrganisationModel,
+            as: 'organisation',
+            attributes: ['id', 'name'],
+            raw: true,
+          },
+        ],
+        raw: true,
+        nest: true,
       });
 
       logger.debug(`UserClass-getUsers - Users: ${JSON.stringify(users)}`);
@@ -60,6 +69,7 @@ export default class UserClass {
 
       const user = await UserModel.findOne({
         where: { id: userId, active: true },
+        raw: true,
       });
 
       logger.debug(`UserClass-getUserById - User: ${JSON.stringify(user)}`);

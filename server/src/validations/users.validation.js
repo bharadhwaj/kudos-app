@@ -40,3 +40,20 @@ export const login = Joi.object({
       .required(),
   },
 });
+
+export const giveKudos = Joi.object({
+  params: {
+    userId: Joi.number()
+      .positive()
+      .required(),
+  },
+  query: {},
+  body: {
+    receiverUserId: Joi.number()
+      .positive()
+      .required(),
+    comments: Joi.string()
+      .trim()
+      .allow(''),
+  },
+});

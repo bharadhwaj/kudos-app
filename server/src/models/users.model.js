@@ -30,13 +30,6 @@ const UserModel = sequelize.define(
       type: Sequelize.STRING(1023),
       allowNull: false,
     },
-    organisationId: {
-      type: Sequelize.INTEGER,
-      references: {
-        model: 'organisations',
-        key: 'id',
-      },
-    },
     active: {
       type: Sequelize.BOOLEAN,
       allowNull: false,
@@ -49,5 +42,8 @@ const UserModel = sequelize.define(
 );
 
 OrganisationModel.hasMany(UserModel);
+UserModel.belongsTo(OrganisationModel, {
+  as: 'organisation',
+});
 
 export default UserModel;
