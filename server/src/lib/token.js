@@ -7,7 +7,7 @@ export function generateToken(id) {
     jwt.sign(
       { id },
       serverConfig.jwt.secret,
-      { expiresIn: '7 days' },
+      { expiresIn: '1 days' },
       (err, token) => {
         if (err) {
           return reject(err);
