@@ -1,0 +1,14 @@
+export const MESSAGE_VARIANTS = {
+  SUCCESS: 'success',
+  WARNING: 'warning',
+  INFO: 'info',
+  ERROR: 'error',
+};
+
+export const APPLICATION_ERROR_STATUS_CODES = {
+  INTERNAL_SERVER_ERROR: 500,
+  UNAUTHORIZED: 401,
+  FORBIDDEN: 403,
+  MISSING_PARAMS: 422,
+  NOT_FOUND: 404,
+};
