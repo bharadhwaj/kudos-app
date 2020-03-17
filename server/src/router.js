@@ -1,5 +1,4 @@
 import express from 'express';
-import path from 'path';
 import v1Routes from './routes/v1';
 
 import { uncached } from './middleware/uncached';
