@@ -12,7 +12,6 @@ router
   .route('/')
   .get(
     validate(organisationValidator.limitAndOffset),
-    authorize,
     organisationController.getAllOrganisations
   );
 

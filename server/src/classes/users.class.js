@@ -15,7 +15,29 @@ export default class UserClass {
 
       const newUser = await UserModel.create(userInfo);
 
-      const { password, ...user } = newUser.get({ plain: true });
+      const user = await UserModel.findOne({
+        attributes: {
+          exclude: [
+            'active',
+            'password',
+            'createdAt',
+            'updatedAt',
+            'active',
+            'organisationId',
+          ],
+        },
+        where: { id: newUser.id },
+        include: [
+          {
+            model: OrganisationModel,
+            as: 'organisation',
+            attributes: ['id', 'name'],
+            raw: true,
+          },
+        ],
+        raw: true,
+        nest: true,
+      });
 
       logger.debug(`UserClass-createUser - User: ${JSON.stringify(user)}`);
 
