@@ -10,8 +10,10 @@ import validateInit from './lib/sanity';
 import logger from './lib/logger';
 import connectSequelize from './lib/sequelize';
 import shutDown from './lib/shutdown';
+
 import addOrganisationData from './utils/organisations';
 import addUserData from './utils/users';
+import addKudosData from './utils/kudos';
 
 if (!validateInit()) {
   shutDown();
@@ -23,10 +25,13 @@ appServer.listen(serverConfig.port, async () => {
   logger.info(
     `Listening on port ${serverConfig.port} Environment: ${env} Dummy Data Status: ${process.env.ADD_DUMMY_DATA}`
   );
+
   await connectSequelize();
+
   if (env === utils.ENV.DEV && process.env.ADD_DUMMY_DATA == 1) {
     await addOrganisationData();
     await addUserData();
+    await addKudosData();
   }
 });
 

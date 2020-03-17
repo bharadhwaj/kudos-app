@@ -74,11 +74,11 @@ class IndexPage extends Component {
               canGiveKudos={canGiveKudos}
               giveKudosToUser={giveKudosToUser}
             />
-            <GivenKudosList kudosGiven={kudosGiven} />
           </Grid>
         </>
         <>
           <Grid container justify="center">
+            <GivenKudosList kudosGiven={kudosGiven} />
             <ReceivedKudosList kudosReceived={kudosReceived} />
           </Grid>
         </>

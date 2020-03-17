@@ -4,7 +4,7 @@ dotenv.config();
 module.exports = {
   apps: [
     {
-      name: 'basis-api',
+      name: 'kudos-app-api',
       script: './build/index.js',
       watch: false,
       env_development: {

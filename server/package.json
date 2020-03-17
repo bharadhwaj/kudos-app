@@ -1,7 +1,7 @@
 {
-  "name": "employee-rating-server",
+  "name": "kudos-app-server",
   "version": "1.0.0",
-  "description": "APIs for employee rating.",
+  "description": "APIs for Kudos App.",
   "scripts": {
     "build": "babel src -d lib",
     "dev-server": "nodemon --exec \" NODE_ENV=development babel-node --inspect src\"",
