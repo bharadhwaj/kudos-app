@@ -23,9 +23,9 @@ const Login = props => {
 
   const classes = makeStyles(style)();
 
-  const [email, setEmailValue] = React.useState('johnsmith@example.com');
+  const [email, setEmailValue] = React.useState('');
   const [emailError, setEmailError] = React.useState(false);
-  const [password, setPasswordValue] = React.useState('password');
+  const [password, setPasswordValue] = React.useState('');
   const [passwordVisible, setPasswordVisibility] = React.useState(false);
 
   const handleEmailTyping = event => {
