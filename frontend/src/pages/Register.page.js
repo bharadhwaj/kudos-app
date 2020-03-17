@@ -5,8 +5,8 @@ import { createStructuredSelector } from 'reselect';
 
 import Register from '../components/Register';
 
-import { loadingAction, loginAction, toastAction } from '../actions';
-import { loadingSelector, userSelector } from '../selectors';
+import { loadingAction, registerAction, toastAction } from '../actions';
+import { loadingSelector, registerSelector, userSelector } from '../selectors';
 
 class RegisterPage extends Component {
   constructor(props) {
@@ -19,12 +19,15 @@ class RegisterPage extends Component {
     }
   }
 
+  componentDidMount() {
+    const { getAllOrganisations } = this.props;
+    getAllOrganisations();
+  }
+
   render() {
-    return (
-      <>
-        <Register {...this.props} />
-      </>
-    );
+    const { isGetOrganisationsLoading } = this.props;
+
+    return <>{!isGetOrganisationsLoading && <Register {...this.props} />}</>;
   }
 }
 
@@ -32,16 +35,22 @@ const mapDispatchToProps = dispatch => ({
   redirectToPage: url => {
     return dispatch(push(url));
   },
-  onLoginSubmit: (email, password) => {
+  getAllOrganisations: () => {
+    dispatch(loadingAction.startGetOrganisationsLoading());
+    return dispatch(registerAction.getAllOrganisations());
+  },
+  onRegisterSubmit: userData => {
     dispatch(toastAction.hideToast());
-    dispatch(loadingAction.startLoginLoading());
-    return dispatch(loginAction.submitForLogin(email, password));
+    dispatch(loadingAction.startRegisterLoading());
+    return dispatch(registerAction.registerUser(userData));
   },
 });
 
 const mapStateToProps = createStructuredSelector({
   isUserLoggedIn: userSelector.isUserLoggedIn(),
-  isLoginSubmitLoading: loadingSelector.getLoginLoadingState(),
+  isGetOrganisationsLoading: loadingSelector.getOrganisationsLoadingState(),
+  isRegisterSubmitLoading: loadingSelector.getRegisterLoadingState(),
+  organisations: registerSelector.getOrganisations(),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterPage);

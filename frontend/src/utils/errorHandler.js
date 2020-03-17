@@ -8,7 +8,10 @@ const handleError = axios => {
     response => response,
     error => {
       const { status, data } = error.response;
-      if (status === utils.APPLICATION_ERROR_STATUS_CODES.UNAUTHORIZED) {
+      if (
+        status === utils.APPLICATION_ERROR_STATUS_CODES.UNAUTHORIZED ||
+        status === utils.APPLICATION_ERROR_STATUS_CODES.NOT_ALLOWED
+      ) {
         const { message } = data;
         store.dispatch(
           toastAction.requestToShowToast(

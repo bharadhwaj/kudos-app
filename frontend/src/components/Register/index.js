@@ -3,9 +3,13 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
+import FormControl from '@material-ui/core/FormControl';
 import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import InputLabel from '@material-ui/core/InputLabel';
 import Link from '@material-ui/core/Link';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
@@ -18,15 +22,66 @@ import style from './style';
 
 import { regex } from '../../constants';
 
-const Login = props => {
-  const { onLoginSubmit, isLoginSubmitLoading } = props;
+const Register = props => {
+  const { onRegisterSubmit, isRegisterSubmitLoading, organisations } = props;
 
   const classes = makeStyles(style)();
 
-  const [email, setEmailValue] = React.useState('johnsmith@example.com');
+  const [firstName, setFirstNameValue] = React.useState('');
+  const [firstNameError, setFirstNameError] = React.useState(false);
+
+  const [lastName, setLastNameValue] = React.useState('');
+  const [lastNameError, setLastNameError] = React.useState(false);
+
+  const [email, setEmailValue] = React.useState('');
   const [emailError, setEmailError] = React.useState(false);
-  const [password, setPasswordValue] = React.useState('password');
+
+  const [password, setPasswordValue] = React.useState('');
   const [passwordVisible, setPasswordVisibility] = React.useState(false);
+
+  const [organisationId, setOrganisationValue] = React.useState(
+    (organisations && organisations[0] && organisations[0].id) || 1
+  );
+
+  const handleFirstNameTyping = event => {
+    if (
+      regex.FIRST_NAME_TYPING.test(event.target.value) ||
+      event.target.value === ''
+    ) {
+      setFirstNameError(false);
+    } else {
+      setFirstNameError(true);
+    }
+    setFirstNameValue(event.target.value);
+  };
+
+  const checkFirstName = event => {
+    if (regex.FIRST_NAME.test(event.target.value)) {
+      setFirstNameError(false);
+    } else {
+      setFirstNameError(true);
+    }
+  };
+
+  const handleLastNameTyping = event => {
+    if (
+      regex.LAST_NAME_TYPING.test(event.target.value) ||
+      event.target.value === ''
+    ) {
+      setLastNameError(false);
+    } else {
+      setLastNameError(true);
+    }
+    setLastNameValue(event.target.value);
+  };
+
+  const checkLastName = event => {
+    if (regex.LAST_NAME.test(event.target.value) || event.target.value === '') {
+      setLastNameError(false);
+    } else {
+      setLastNameError(true);
+    }
+  };
 
   const handleEmailTyping = event => {
     if (
@@ -41,7 +96,7 @@ const Login = props => {
   };
 
   const checkEmail = event => {
-    if (regex.EMAIL.test(event.target.value) || event.target.value === '') {
+    if (regex.EMAIL.test(event.target.value)) {
       setEmailError(false);
     } else {
       setEmailError(true);
@@ -56,10 +111,20 @@ const Login = props => {
     setPasswordVisibility(!passwordVisible);
   };
 
-  const handleLoginSubmit = event => {
-    event.preventDefault();
-    onLoginSubmit(email, password);
+  const handleOrganisationSelect = event => {
+    setOrganisationValue(event.target.value);
   };
+
+  const handleRegisterSubmit = event => {
+    event.preventDefault();
+    onRegisterSubmit({ firstName, lastName, email, password, organisationId });
+  };
+
+  const organisationList = organisations.map(organisation => (
+    <MenuItem key={organisation.id} value={organisation.id}>
+      {organisation.name}
+    </MenuItem>
+  ));
 
   return (
     <>
@@ -68,7 +133,52 @@ const Login = props => {
           <Grid container justify="center" className={classes.registerElement}>
             <Typography variant="h4">Register</Typography>
           </Grid>
-          <form onSubmit={handleLoginSubmit}>
+          <form onSubmit={handleRegisterSubmit}>
+            <Grid
+              container
+              justify="center"
+              className={classes.registerElement}
+            >
+              <Grid item xs={10} sm={8} md={6} lg={3}>
+                <TextField
+                  id="firstName"
+                  variant="outlined"
+                  label="First Name"
+                  placeholder="John"
+                  value={firstName}
+                  onChange={handleFirstNameTyping}
+                  onBlur={checkFirstName}
+                  error={firstNameError}
+                  helperText={firstNameError && 'Invalid First name format.'}
+                  InputLabelProps={{ shrink: true }}
+                  autoFocus
+                  fullWidth
+                />
+              </Grid>
+            </Grid>
+
+            <Grid
+              container
+              justify="center"
+              className={classes.registerElement}
+            >
+              <Grid item xs={10} sm={8} md={6} lg={3}>
+                <TextField
+                  id="lastName"
+                  variant="outlined"
+                  label="Last Name (Optional)"
+                  placeholder="Smith"
+                  value={lastName}
+                  onChange={handleLastNameTyping}
+                  onBlur={checkLastName}
+                  error={lastNameError}
+                  helperText={lastNameError && 'Invalid Last name format.'}
+                  InputLabelProps={{ shrink: true }}
+                  fullWidth
+                />
+              </Grid>
+            </Grid>
+
             <Grid
               container
               justify="center"
@@ -86,11 +196,11 @@ const Login = props => {
                   error={emailError}
                   helperText={emailError && 'Invalid email format.'}
                   InputLabelProps={{ shrink: true }}
-                  autoFocus
                   fullWidth
                 />
               </Grid>
             </Grid>
+
             <Grid
               container
               justify="center"
@@ -123,6 +233,31 @@ const Login = props => {
                 />
               </Grid>
             </Grid>
+
+            <Grid
+              container
+              justify="center"
+              className={classes.registerElement}
+            >
+              <Grid item xs={10} sm={8} md={6} lg={3}>
+                <FormControl variant="outlined" fullWidth>
+                  <InputLabel id="select-organisation-label">
+                    Organisation
+                  </InputLabel>
+                  <Select
+                    labelId="select-organisation-label"
+                    id="select-organisation"
+                    value={organisationId}
+                    onChange={handleOrganisationSelect}
+                    labelWidth={95}
+                    fullWidth
+                  >
+                    {organisationList}
+                  </Select>
+                </FormControl>
+              </Grid>
+            </Grid>
+
             <Grid
               container
               justify="center"
@@ -134,10 +269,10 @@ const Login = props => {
                   color="primary"
                   size="large"
                   disabled={emailError || email === '' || password === ''}
-                  onClick={handleLoginSubmit}
+                  onClick={handleRegisterSubmit}
                   fullWidth
                 >
-                  {!isLoginSubmitLoading ? 'Login' : <CircularProgress />}
+                  {!isRegisterSubmitLoading ? 'Register' : <CircularProgress />}
                 </Button>
               </Grid>
             </Grid>
@@ -157,4 +292,4 @@ const Login = props => {
   );
 };
 
-export default Login;
+export default Register;

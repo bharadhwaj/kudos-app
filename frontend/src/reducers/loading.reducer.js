@@ -1,6 +1,8 @@
 import { LOADING } from '../constants/actions';
 
 const initialState = {
+  isGetOrganisationLoading: false,
+  isRegisterSubmitLoading: false,
   isLoginSubmitLoading: false,
   isFetchKudosLoading: false,
   isGetUsersOfCurrenOrgLoading: false,
@@ -9,6 +11,30 @@ const initialState = {
 
 export default function loadingReducer(state = initialState, action) {
   switch (action.type) {
+    case LOADING.START_GET_ORGANISATION_LOADING:
+      return {
+        ...state,
+        isGetOrganisationLoading: true,
+      };
+
+    case LOADING.STOP_GET_ORGANISATION_LOADING:
+      return {
+        ...state,
+        isGetOrganisationLoading: false,
+      };
+
+    case LOADING.START_REGISTER_LOADING:
+      return {
+        ...state,
+        isRegisterSubmitLoading: true,
+      };
+
+    case LOADING.STOP_REGISTER_LOADING:
+      return {
+        ...state,
+        isRegisterSubmitLoading: false,
+      };
+
     case LOADING.START_LOGIN_LOADING:
       return {
         ...state,

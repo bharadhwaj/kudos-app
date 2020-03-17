@@ -1,5 +1,13 @@
 import { LOADING } from '../constants/actions';
 
+export function startRegisterLoading() {
+  return { type: LOADING.START_REGISTER_LOADING };
+}
+
+export function stopRegisterLoading() {
+  return { type: LOADING.STOP_REGISTER_LOADING };
+}
+
 export function startLoginLoading() {
   return { type: LOADING.START_LOGIN_LOADING };
 }
@@ -14,6 +22,14 @@ export function startFetchKudosLoading() {
 
 export function stopFetchKudosLoading() {
   return { type: LOADING.STOP_FETCH_KUDOS_LOADING };
+}
+
+export function startGetOrganisationsLoading() {
+  return { type: LOADING.START_GET_ORGANISATION_LOADING };
+}
+
+export function stopGetOrganisationsLoading() {
+  return { type: LOADING.STOP_GET_ORGANISATION_LOADING };
 }
 
 export function startGetUsersOfCurrentOrgLoading() {
