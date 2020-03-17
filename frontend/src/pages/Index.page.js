@@ -112,7 +112,7 @@ const mapDispatchToProps = dispatch => ({
   },
   giveKudosToUser: (receiverUserId, comments) => {
     comments = comments === '' ? null : comments;
-    dispatch(loadingAction.startFetchKudosLoading());
+    dispatch(loadingAction.startGiveKudosToUserLoading());
     return dispatch(kudosAction.giveKudosToUser(receiverUserId, comments));
   },
 });
