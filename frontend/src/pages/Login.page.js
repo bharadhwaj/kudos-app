@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Helmet } from 'react-helmet';
 import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -22,6 +23,9 @@ class LoginPage extends Component {
   render() {
     return (
       <>
+        <Helmet>
+          <title>Login</title>
+        </Helmet>
         <Login {...this.props} />
       </>
     );

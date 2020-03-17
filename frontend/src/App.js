@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { ConnectedRouter } from 'connected-react-router';
 import { Helmet } from 'react-helmet';
@@ -11,15 +11,13 @@ import CustomTheme from './utils/theme';
 
 import IndexPage from './pages/Index.page';
 import LoginPage from './pages/Login.page';
-import RegisterPage from './pages/Register.page';
 
+import Loading from './components/Loading';
 import Toast from './components/Toast';
 
-// import CommunityPage from './pages/Community.page';
-// import LoginPage from './pages/Login.page';
-// import PostPage from './pages/Post.page';
-// import RewardPage from './pages/Reward.page';
-// import SignUpPage from './pages/SignUp.page';
+// Lazy Load
+const NotFoundPage = lazy(() => import('./pages/NotFound.page'));
+const RegisterPage = lazy(() => import('./pages/Register.page'));
 
 const App = () => {
   return (
@@ -33,11 +31,14 @@ const App = () => {
       <ConnectedRouter history={history}>
         <Toast />
         <ThemeProvider theme={CustomTheme}>
-          <Switch>
-            <Route exact path="/" component={IndexPage} />
-            <Route exact path="/login" component={LoginPage} />
-            <Route exact path="/register" component={RegisterPage} />
-          </Switch>
+          <Suspense fallback={<Loading />}>
+            <Switch>
+              <Route exact path="/" component={IndexPage} />
+              <Route exact path="/login" component={LoginPage} />
+              <Route exact path="/register" component={RegisterPage} />
+              <Route component={NotFoundPage} />
+            </Switch>
+          </Suspense>
         </ThemeProvider>
       </ConnectedRouter>
     </Provider>

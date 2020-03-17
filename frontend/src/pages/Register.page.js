@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Helmet } from 'react-helmet';
 import { push } from 'connected-react-router';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -27,7 +28,14 @@ class RegisterPage extends Component {
   render() {
     const { isGetOrganisationsLoading } = this.props;
 
-    return <>{!isGetOrganisationsLoading && <Register {...this.props} />}</>;
+    return (
+      <>
+        <Helmet>
+          <title>Register</title>
+        </Helmet>
+        {!isGetOrganisationsLoading && <Register {...this.props} />}
+      </>
+    );
   }
 }
 
