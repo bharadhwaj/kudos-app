@@ -7,3 +7,11 @@ export function updateBasicUserInfo(userInfo) {
 export function resetUserInfo() {
   return { type: USER.RESET_USER_DATA };
 }
+
+export function getUsersOfCurrentOrganisation() {
+  return { type: USER.GET_USERS_OF_CURRENT_ORG };
+}
+
+export function updateUserOfCurrentOrganisation(users) {
+  return { type: USER.UPDATE_USERS_OF_CURRENT_ORG, payload: { users } };
+}

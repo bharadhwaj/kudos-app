@@ -7,3 +7,15 @@ export const getLoginLoadingState = () =>
     selectLoadingState,
     loadingState => loadingState.isLoginSubmitLoading
   );
+
+export const getFetchKudosLoadingState = () =>
+  createSelector(
+    selectLoadingState,
+    loadingState => loadingState.isFetchKudosLoading
+  );
+
+export const getUsersOfCurrenOrgLoadingState = () =>
+  createSelector(
+    selectLoadingState,
+    loadingState => loadingState.isGetUsersOfCurrenOrgLoading
+  );

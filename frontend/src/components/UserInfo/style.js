@@ -3,6 +3,7 @@ const style = theme => ({
     paddingTop: theme.spacing(1),
   },
   userInfoIcon: {
+    color: '#757575',
     marginRight: theme.spacing(2),
   },
   logoutButton: {

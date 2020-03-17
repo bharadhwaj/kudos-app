@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { connectRouter } from 'connected-react-router';
 
+import kudosReducer from './kudos.reducer';
 import loadingReducer from './loading.reducer';
 import loginReducer from './login.reducer';
 import toastReducer from './toast.reducer';
@@ -13,6 +14,7 @@ const rootReducer = history =>
     loading: loadingReducer,
     login: loginReducer,
     user: userReducer,
+    kudos: kudosReducer,
   });
 
 export default rootReducer;

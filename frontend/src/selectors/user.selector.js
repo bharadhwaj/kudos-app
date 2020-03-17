@@ -1,21 +1,44 @@
 import { createSelector } from 'reselect';
 
-const selectUserState = state => state.user;
+const selectCurrentUserState = state => state.user.currentUser;
+const selectState = state => state;
 
 export const isUserLoggedIn = () =>
-  createSelector(selectUserState, userState => userState.isLoggedIn);
+  createSelector(
+    selectCurrentUserState,
+    currentUserState => currentUserState.isLoggedIn
+  );
 
 export const getAuthToken = () =>
   createSelector(
-    selectUserState,
-    userState =>
-      userState.id &&
-      userState.token &&
-      'Bearer ' + userState.id + ',' + userState.token
+    selectCurrentUserState,
+    currentUserState =>
+      currentUserState.id &&
+      currentUserState.token &&
+      'Bearer ' + currentUserState.id + ',' + currentUserState.token
   );
 
 export const getCurrentUserId = () =>
-  createSelector(selectUserState, userState => userState.id);
+  createSelector(
+    selectCurrentUserState,
+    currentUserState => currentUserState.id
+  );
+
+export const getCurrentUserOrganisationId = () =>
+  createSelector(
+    selectCurrentUserState,
+    currentUserState => currentUserState.organisation.id
+  );
 
 export const getCurrentUserInfo = () =>
-  createSelector(selectUserState, userState => userState);
+  createSelector(selectCurrentUserState, currentUserState => currentUserState);
+
+export const getUsersToGiveKudos = () =>
+  createSelector(selectState, state => {
+    const kudosGivenUserIds = state.kudos.kudosGiven.map(
+      kudos => kudos.receivedByUser.id
+    );
+    return state.user.users.filter(
+      user => kudosGivenUserIds.indexOf(user.id) === -1
+    );
+  });

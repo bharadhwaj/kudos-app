@@ -23,58 +23,42 @@ const UserInfo = props => {
     : user.firstName;
 
   return (
-    <Grid container justify="center">
-      <Grid item xs={10} sm={8} md={6} lg={4}>
-        <Card raised={true}>
-          <CardContent>
-            <Grid
-              container
-              justify="center"
-              className={classes.userInfoElement}
-            >
-              <Avatar>{fullName[0].toUpperCase()}</Avatar>
+    <Card raised={true}>
+      <CardContent>
+        <Grid container justify="center" className={classes.userInfoElement}>
+          <Avatar>{fullName[0].toUpperCase()}</Avatar>
+        </Grid>
+        <Grid container justify="center" className={classes.userInfoElement}>
+          <Typography variant="h5">{fullName}</Typography>
+        </Grid>
+        <Grid container justify="center" className={classes.userInfoElement}>
+          <EmailRoundedIcon className={classes.userInfoIcon} />
+          <Typography variant="body1" color="textSecondary">
+            {user.email}
+          </Typography>
+        </Grid>
+        <Grid container justify="center" className={classes.userInfoElement}>
+          <BusinessRoundedIcon className={classes.userInfoIcon} />
+          <Typography variant="body1" color="textSecondary">
+            {user.organisation.name}
+          </Typography>
+        </Grid>
+        <Grid container justify="center" className={classes.logoutButton}>
+          <Grid item xs={6}>
+            <Grid container justify="center">
+              <Button
+                variant="outlined"
+                color="primary"
+                fullWidth
+                onClick={logout}
+              >
+                Logout
+              </Button>
             </Grid>
-            <Grid
-              container
-              justify="center"
-              className={classes.userInfoElement}
-            >
-              <Typography variant="h5">{fullName}</Typography>
-            </Grid>
-            <Grid
-              container
-              justify="center"
-              className={classes.userInfoElement}
-            >
-              <EmailRoundedIcon className={classes.userInfoIcon} />
-              <Typography variant="body1">{user.email}</Typography>
-            </Grid>
-            <Grid
-              container
-              justify="center"
-              className={classes.userInfoElement}
-            >
-              <BusinessRoundedIcon className={classes.userInfoIcon} />
-              <Typography variant="body1">{user.organisation.name}</Typography>
-            </Grid>
-            <Grid container justify="center" className={classes.logoutButton}>
-              <Grid item xs={6}>
-                <Grid container justify="center">
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    fullWidth
-                    onClick={logout}
-                  >
-                    Logout
-                  </Button>
-                </Grid>
-              </Grid>
-            </Grid>
-          </CardContent>
-        </Card>
-      </Grid>
-    </Grid>
+          </Grid>
+        </Grid>
+      </CardContent>
+    </Card>
   );
 };
 

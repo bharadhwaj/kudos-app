@@ -35,8 +35,6 @@ function* loginSubmitWorker() {
 
     const response = yield axios.post(requestURL, body, { headers });
 
-    console.log('response: ', response);
-
     yield put(loadingAction.stopLoginLoading());
 
     if (response && response.status === 200) {
@@ -44,9 +42,11 @@ function* loginSubmitWorker() {
       const { message } = data;
       const { user } = data.data;
       updateUserLoginInfo(user);
+
       yield put(
         toastAction.requestToShowToast(utils.MESSAGE_VARIANTS.SUCCESS, message)
       );
+
       yield put(userAction.updateBasicUserInfo(user));
       yield put(push('/'));
     }

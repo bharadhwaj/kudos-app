@@ -13,26 +13,46 @@ const notLoggedInInitialState = {
   organisation: null,
 };
 
-const initialState = isLoggedIn ? userInfo : notLoggedInInitialState;
+const initialState = {
+  currentUser: isLoggedIn ? userInfo : notLoggedInInitialState,
+  users: [],
+};
 
 export default function userReducer(state = initialState, action) {
   switch (action.type) {
     case USER.UPDATE_BASIC_DATA:
       return {
         ...state,
-        isLoggedIn: true,
-        id: action.payload.userInfo.id,
-        token: action.payload.userInfo.token,
-        firstName: action.payload.userInfo.firstName,
-        lastName: action.payload.userInfo.lastName,
-        email: action.payload.userInfo.email,
-        organisation: action.payload.userInfo.organisation,
+        currentUser: {
+          ...state.currentUser,
+          isLoggedIn: true,
+          id: action.payload.userInfo.id,
+          token: action.payload.userInfo.token,
+          firstName: action.payload.userInfo.firstName,
+          lastName: action.payload.userInfo.lastName,
+          email: action.payload.userInfo.email,
+          organisation: action.payload.userInfo.organisation,
+        },
+      };
+
+    case USER.UPDATE_USERS_OF_CURRENT_ORG:
+      return {
+        ...state,
+        users: [
+          ...action.payload.users.filter(
+            user => +user.id !== state.currentUser.id
+          ),
+        ],
       };
 
     case USER.RESET_USER_DATA:
       return {
         ...state,
-        ...notLoggedInInitialState,
+        currentUser: {
+          ...state.currentUser,
+          ...notLoggedInInitialState,
+        },
+        users: [],
       };
 
     default:
