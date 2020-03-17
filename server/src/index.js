@@ -20,9 +20,11 @@ if (!validateInit()) {
 const appServer = http.createServer(app);
 
 appServer.listen(serverConfig.port, async () => {
-  logger.info(`Listening on port ${serverConfig.port} Environment: ${env}`);
+  logger.info(
+    `Listening on port ${serverConfig.port} Environment: ${env} Dummy Data Status: ${process.env.ADD_DUMMY_DATA}`
+  );
   await connectSequelize();
-  if (env === utils.ENV.DEV) {
+  if (env === utils.ENV.DEV && process.env.ADD_DUMMY_DATA == 1) {
     await addOrganisationData();
     await addUserData();
   }
