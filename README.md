@@ -1,5 +1,4 @@
 # Kudos App - Coworker Rating App
-----
 
 Kudos App is a coworkers rating app. You can give kudos to your coworkers on a weekly basis, but to restrict giving out your unconditional love, we are restricting per week 3 kudos. Endorse them and show your support. 
 

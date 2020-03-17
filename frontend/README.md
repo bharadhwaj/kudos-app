@@ -1,5 +1,5 @@
 # Kudos App Frontend
-------------
+
 ### Installation
 
 Clone the repository.

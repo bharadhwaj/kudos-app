@@ -1,5 +1,5 @@
 # Kudos App Server
-------------
+
 ### Installation
 
 Clone the repository.
