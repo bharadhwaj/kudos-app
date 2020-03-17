@@ -19,6 +19,7 @@ export const ORGANISATION_MESSAGES = {
 
 export const KUDOS_MESSAGES = {
   KUDOS_ADDED: 'Successfully registered your kudos.',
+  FETCH_KUDOS: 'Fetched all kudos successfully.',
 };
 
 export const APPLICATION_ERROR_MESSAGES = {

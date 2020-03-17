@@ -13,10 +13,29 @@ export default class KudosClass {
         `KudosClass-addKudos - Given By: ${givenByUserId} - Received By: ${receivedByUserId} - Comments: ${comments}`
       );
 
-      const kudos = await KudosModel.create({
+      const kudosCreated = await KudosModel.create({
         givenByUserId,
         receivedByUserId,
         comments,
+      });
+
+      const kudos = await KudosModel.findOne({
+        where: {
+          id: kudosCreated.id,
+        },
+        include: [
+          {
+            model: UserModel,
+            as: 'receivedByUser',
+            attributes: ['id', 'firstName', 'lastName', 'email'],
+            raw: true,
+          },
+        ],
+        attributes: {
+          exclude: ['updatedAt', 'givenByUserId', 'receivedByUserId'],
+        },
+        raw: true,
+        nest: true,
       });
 
       logger.debug(`KudosClass-addKudos - Kudos: ${JSON.stringify(kudos)}`);
@@ -71,6 +90,51 @@ export default class KudosClass {
     }
   }
 
+  async getKudosReceivedForUserThisWeek(userId) {
+    try {
+      logger.info(
+        `KudosClass-getKudosReceivedForUserThisWeek - User ID: ${userId}`
+      );
+
+      const fromDate = moment().startOf('week');
+
+      const kudos = await KudosModel.findAll({
+        where: {
+          receivedByUserId: userId,
+          createdAt: {
+            [Op.gte]: fromDate,
+          },
+        },
+        include: [
+          {
+            model: UserModel,
+            as: 'givenByUser',
+            attributes: ['id', 'firstName', 'lastName', 'email'],
+            raw: true,
+          },
+        ],
+        attributes: {
+          exclude: ['updatedAt', 'givenByUserId', 'receivedByUserId'],
+        },
+        raw: true,
+        nest: true,
+      });
+
+      logger.debug(
+        `KudosClass-getKudosReceivedForUserThisWeek - Kudos: ${JSON.stringify(
+          kudos
+        )}`
+      );
+
+      return kudos;
+    } catch (error) {
+      logger.error(
+        `ERROR: KudosClass-getKudosReceivedForUserThisWeek - ${error}`
+      );
+      throw error;
+    }
+  }
+
   async getCurrentWeekKudosCountByUser(userId) {
     try {
       logger.info(
@@ -99,6 +163,39 @@ export default class KudosClass {
     } catch (error) {
       logger.error(
         `ERROR: KudosClass-getCurrentWeekKudosCountByUser - ${error}`
+      );
+      throw error;
+    }
+  }
+
+  async getCurrentWeekKudosCountForUser(userId) {
+    try {
+      logger.info(
+        `KudosClass-getCurrentWeekKudosCountForUser - User ID: ${userId}`
+      );
+
+      const fromDate = moment().startOf('week');
+
+      const kudosCount = await KudosModel.count({
+        where: {
+          receivedByUserId: userId,
+          createdAt: {
+            [Op.gte]: fromDate,
+          },
+        },
+        raw: true,
+      });
+
+      logger.debug(
+        `KudosClass-getCurrentWeekKudosCountForUser - Kudos Count: ${JSON.stringify(
+          kudosCount
+        )}`
+      );
+
+      return kudosCount;
+    } catch (error) {
+      logger.error(
+        `ERROR: KudosClass-getCurrentWeekKudosCountForUser - ${error}`
       );
       throw error;
     }

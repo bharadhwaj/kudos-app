@@ -1,4 +1,5 @@
 import { hashSync, compareSync } from 'bcryptjs';
+import moment from 'moment-timezone';
 
 import KudosClass from '../classes/kudos.class';
 import OrganisationClass from '../classes/organisations.class';
@@ -56,7 +57,7 @@ export const signUp = async (req, res, next) => {
       success: true,
       responseCode: code.SUCCESS_CODES.GENERIC_SUCCESS,
       message: message.USER_MESSAGES.CREATE_USER_SUCCESS,
-      data: { user, kudosCount: 0, kudos: [] },
+      data: { user },
     });
   } catch (error) {
     logger.error(`ERROR: UserController-signUp - ${JSON.stringify(error)}`);
@@ -70,7 +71,6 @@ export const login = async (req, res, next) => {
     const { email, password } = req.body;
 
     const userObject = new UserClass();
-    const kudosObject = new KudosClass();
 
     const [existingUser] = await userObject.getUsers(
       {
@@ -112,16 +112,13 @@ export const login = async (req, res, next) => {
 
     user.token = await generateToken(user.id);
 
-    const kudosCount = await kudosObject.getCurrentWeekKudosCountByUser(
-      +user.id
-    );
-    const kudos = await kudosObject.getKudosGivenByUserThisWeek(+user.id);
-
     res.status(200).send({
       success: true,
       responseCode: code.SUCCESS_CODES.GENERIC_SUCCESS,
       message: message.USER_MESSAGES.LOGIN_SUCCESS,
-      data: { user, kudosCount, kudos },
+      data: {
+        user,
+      },
     });
   } catch (error) {
     logger.error(`ERROR: UserController-login - ${error}`);
@@ -205,6 +202,51 @@ export const giveKudos = async (req, res, next) => {
     });
   } catch (error) {
     logger.error(`ERROR: UserController-giveKudos - ${error}`);
+    next(error);
+  }
+};
+
+export const getKudos = async (req, res, next) => {
+  try {
+    logger.info(
+      `INFO: UserController-getKudos - User ID: ${req.params.userId}`
+    );
+
+    const userId = +req.params.userId;
+
+    const userObject = new UserClass();
+    const kudosObject = new KudosClass();
+
+    await userObject.getUserById(userId);
+
+    const kudosStartDate = moment().startOf('week');
+    const kudosEndDate = moment().endOf('week');
+    const givenKudosCount = await kudosObject.getCurrentWeekKudosCountByUser(
+      userId
+    );
+    const kudosGiven = await kudosObject.getKudosGivenByUserThisWeek(userId);
+    const receivedKudosCount = await kudosObject.getCurrentWeekKudosCountForUser(
+      userId
+    );
+    const kudosReceived = await kudosObject.getKudosReceivedForUserThisWeek(
+      userId
+    );
+
+    res.status(200).send({
+      success: true,
+      responseCode: code.SUCCESS_CODES.GENERIC_SUCCESS,
+      message: message.KUDOS_MESSAGES.FETCH_KUDOS,
+      data: {
+        kudosStartDate,
+        kudosEndDate,
+        givenKudosCount,
+        kudosGiven,
+        receivedKudosCount,
+        kudosReceived,
+      },
+    });
+  } catch (error) {
+    logger.error(`ERROR: UserController-getKudos - ${error}`);
     next(error);
   }
 };

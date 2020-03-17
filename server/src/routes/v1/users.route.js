@@ -20,4 +20,8 @@ router
   .route('/:userId/kudos')
   .post(validate(userValidator.giveKudos), authorize, userController.giveKudos);
 
+router
+  .route('/:userId/kudos')
+  .get(validate(userValidator.userId), authorize, userController.getKudos);
+
 export default router;

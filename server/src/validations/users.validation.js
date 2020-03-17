@@ -54,6 +54,17 @@ export const giveKudos = Joi.object({
       .required(),
     comments: Joi.string()
       .trim()
+      .allow(null)
       .allow(''),
   },
+});
+
+export const userId = Joi.object({
+  params: {
+    userId: Joi.number()
+      .positive()
+      .required(),
+  },
+  query: {},
+  body: {},
 });
