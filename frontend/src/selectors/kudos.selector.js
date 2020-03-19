@@ -20,9 +20,6 @@ export const getGivenKudos = () =>
 export const getReceivedKudos = () =>
   createSelector(selectKudosState, kudosState => kudosState.kudosReceived);
 
-export const getGiveKudosBody = () =>
-  createSelector(selectKudosState, kudosState => kudosState.giveKudos);
-
 export const getKudosGivenUserIds = () =>
   createSelector(selectKudosState, kudosState =>
     kudosState.kudosGiven.map(kudos => kudos.receivedByUser.id)

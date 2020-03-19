@@ -5,7 +5,7 @@ import { kudosAction, loadingAction } from '../actions';
 
 import { actions, urls } from '../constants';
 
-import { userSelector, kudosSelector } from '../selectors';
+import { userSelector } from '../selectors';
 
 import handleError from '../utils/errorHandler';
 
@@ -42,7 +42,7 @@ function* fetchAllKudosWorker() {
   }
 }
 
-function* giveKudosToUserWorker() {
+function* giveKudosToUserWorker({ payload }) {
   try {
     handleError(axios);
 
@@ -50,7 +50,7 @@ function* giveKudosToUserWorker() {
 
     const requestURL = urls.GIVE_KUDOS_TO_USER.replace(/<USER_ID>/, userId);
 
-    const body = yield select(kudosSelector.getGiveKudosBody());
+    const body = payload;
 
     const authToken = yield select(userSelector.getAuthToken());
 

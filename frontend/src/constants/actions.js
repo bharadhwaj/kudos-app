@@ -28,9 +28,13 @@ export const TOAST = {
 
 // ------------------ REGISTER ACTIONS ------------------ //
 export const REGISTER = {
-  GET_ALL_ORGANISATIONS: 'kudosApp/Register/GET_ALL_ORGANISATIONS',
-  UPDATE_ORGANISATION_DATA: 'kudosApp/Register/UPDATE_ORGANISATION_DATA',
   REGISTER_USER: 'kudosApp/Register/REGISTER_USER',
+};
+
+// ------------------ ORGANISATION ACTIONS ------------------ //
+export const ORGANISATION = {
+  GET_ALL_ORGANISATIONS: 'kudosApp/Organisation/GET_ALL_ORGANISATIONS',
+  UPDATE_ORGANISATION_DATA: 'kudosApp/Organisation/UPDATE_ORGANISATION_DATA',
 };
 
 // ------------------ LOGIN ACTIONS ------------------ //

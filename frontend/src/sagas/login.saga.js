@@ -1,12 +1,10 @@
 import axios from 'axios';
-import { all, put, select, takeLatest } from '@redux-saga/core/effects';
+import { all, put, takeLatest } from '@redux-saga/core/effects';
 import { push } from 'connected-react-router';
 
 import { loadingAction, toastAction, userAction } from '../actions';
 
 import { actions, urls, utils } from '../constants';
-
-import { loginSelector } from '../selectors';
 
 import handleError from '../utils/errorHandler';
 import { updateUserLoginInfo } from '../utils/users';
@@ -16,13 +14,12 @@ import { updateUserLoginInfo } from '../utils/users';
  * -----------------------------------------
  */
 
-function* loginSubmitWorker() {
+function* loginSubmitWorker({ payload }) {
   try {
     handleError(axios);
     const requestURL = urls.LOGIN_URL;
 
-    const email = yield select(loginSelector.getLoginEmail());
-    const password = yield select(loginSelector.getLoginPassword());
+    const { email, password } = payload;
 
     const body = {
       email,

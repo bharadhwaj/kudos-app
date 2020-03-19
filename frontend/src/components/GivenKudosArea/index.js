@@ -19,8 +19,6 @@ import style from './style';
 const GivenKudosArea = props => {
   const { kudos } = props;
 
-  console.log('KDUOS: ', kudos);
-
   const classes = makeStyles(style)();
 
   const fullName = kudos.receivedByUser.lastName

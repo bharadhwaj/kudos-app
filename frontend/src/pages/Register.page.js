@@ -6,8 +6,18 @@ import { createStructuredSelector } from 'reselect';
 
 import Register from '../components/Register';
 
-import { loadingAction, registerAction, toastAction } from '../actions';
-import { loadingSelector, registerSelector, userSelector } from '../selectors';
+import {
+  loadingAction,
+  organisationAction,
+  registerAction,
+  toastAction,
+} from '../actions';
+
+import {
+  loadingSelector,
+  organisationSelector,
+  userSelector,
+} from '../selectors';
 
 class RegisterPage extends Component {
   constructor(props) {
@@ -45,7 +55,7 @@ const mapDispatchToProps = dispatch => ({
   },
   getAllOrganisations: () => {
     dispatch(loadingAction.startGetOrganisationsLoading());
-    return dispatch(registerAction.getAllOrganisations());
+    return dispatch(organisationAction.getAllOrganisations());
   },
   onRegisterSubmit: userData => {
     dispatch(toastAction.hideToast());
@@ -58,7 +68,7 @@ const mapStateToProps = createStructuredSelector({
   isUserLoggedIn: userSelector.isUserLoggedIn(),
   isGetOrganisationsLoading: loadingSelector.getOrganisationsLoadingState(),
   isRegisterSubmitLoading: loadingSelector.getRegisterLoadingState(),
-  organisations: registerSelector.getOrganisations(),
+  organisations: organisationSelector.getOrganisations(),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterPage);
